@@ -27,7 +27,6 @@ export default {
       .get("https://mendel-rocketpay.herokuapp.com/api/users/")
       .then(({ data }) => {
         this.users = data;
-        console.log(data)
       })
       .catch(console.error);
   },

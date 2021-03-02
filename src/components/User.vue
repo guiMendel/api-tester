@@ -58,7 +58,7 @@ h2 {
 /* balance */
 p {
   font-size: 2rem;
-  font-weight: 300;
-  color: var(--text-light);
+  font-weight: 400;
+  color: var(--text-blue);
 }
 </style>
