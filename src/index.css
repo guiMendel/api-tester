@@ -1,0 +1,47 @@
+#app {
+  font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-align: center;
+
+  color: var(--text);
+  background-color: var(--color-2);
+  min-height: 100vh;
+
+  padding-top: 2rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+span,
+p,
+h1 {
+  user-select: text;
+}
+
+:root {
+  --color-1: rgb(255, 255, 255);
+  --color-2: rgb(243, 246, 246);
+  --washed-gray: rgb(214, 214, 214);
+  --gray: rgb(144, 144, 144);
+  --text: black;
+  --text-light: rgb(143, 143, 143);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
