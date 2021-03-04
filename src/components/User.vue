@@ -26,20 +26,24 @@ div {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .container {
+  width: 100%;
+
   background-color: var(--color-1);
   border-radius: 10px;
   box-shadow: 0 1px 2px 0.5px var(--washed-gray);
 
   padding: 1rem 2rem;
-  margin: 0 2rem 1rem;
 }
 
 .user-info {
-  flex-direction: column;
-  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--washed-gray);
 }
 
 /* name */

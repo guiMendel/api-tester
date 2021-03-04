@@ -1,21 +1,16 @@
 <template>
-  <User
-    v-for="user in users"
-    :name="user.name"
-    :nickname="user.nickname"
-    :balance="user.account.balance"
-    :key="user.id"
-  />
+  <index />
+  <router-view></router-view>
 </template>
 
 <script>
-import User from "./components/User.vue";
 import axios from "axios";
+import Index from "./views/Index.vue";
 
 export default {
   name: "App",
   components: {
-    User,
+    Index,
   },
   data() {
     return {
