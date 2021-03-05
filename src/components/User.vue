@@ -63,6 +63,6 @@ h2 {
 p {
   font-size: 2rem;
   font-weight: 400;
-  color: var(--text-blue);
+  color: var(--blue);
 }
 </style>

@@ -10,8 +10,13 @@
     <Button
       :icon_name="icon_name"
       :size="size"
+      :no_shadow="no_shadow"
       @mouseover="showTooltip"
       @mouseleave="hideTooltip"
+      :style="`
+      --background: ${button_color ?? 'white'};
+      --text: ${icon_color ?? 'var(--text)'}
+      `"
     />
   </div>
 </template>
@@ -32,6 +37,9 @@ export default {
     icon_name: String,
     tooltip: String,
     size: String,
+    no_shadow: Boolean,
+    button_color: String,
+    icon_color: String,
   },
   methods: {
     showTooltip() {
@@ -58,6 +66,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  background-color: var(--background);
+  color: var(--text);
 }
 .tooltip {
   color: white;

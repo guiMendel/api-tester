@@ -1,10 +1,10 @@
 <template>
   <button
     :style="`--size: ${size ?? '56px'}`"
-    class="smooth-foreground-element"
+    :class="{ 'smooth-foreground-element': !no_shadow ?? true }"
   >
     <span v-if="icon_name" class="material-icons-round">{{ icon_name }}</span>
-    <span v-if="text">{{ text }}</span>
+    <slot></slot>
   </button>
 </template>
 
@@ -15,6 +15,7 @@ export default {
     text: String,
     icon_name: String,
     size: String,
+    no_shadow: Boolean,
   },
 };
 </script>
@@ -22,12 +23,16 @@ export default {
 <style scoped>
 button {
   padding: 0.7rem;
-  border-radius: 15px;
+  border-radius: 10px;
   border: none;
   text-decoration: none;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  font-size: inherit;
 }
 
 span {
@@ -35,7 +40,7 @@ span {
 }
 
 /* Se tiver icone e texto, da um espaco entre eles */
-button > span + span {
+button > span + * {
   margin-left: 0.6rem;
 }
 </style>

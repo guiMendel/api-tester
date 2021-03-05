@@ -1,7 +1,12 @@
 <template>
   <main>
     <router-link to="/new-user">
-      <circle-button icon_name="add" tooltip="New User" size="4rem" />
+      <circle-button
+        icon_name="add"
+        tooltip="New User"
+        size="4rem"
+        color="var(--color-1)"
+      />
     </router-link>
 
     <user

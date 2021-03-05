@@ -33,8 +33,9 @@ h1 {
   --light-gray: rgb(212, 212, 212);
   --gray: rgb(144, 144, 144);
   --text: black;
-  --text-light: rgb(143, 143, 143);
-  --text-blue: rgb(61, 104, 195);
+  --text-light: rgb(122, 122, 122);
+  --blue: rgb(61, 104, 195);
+  --green: rgb(61, 195, 83);
 }
 
 a {
