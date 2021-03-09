@@ -109,7 +109,7 @@ export default {
         .catch((error) => {
           console.log({ error });
           this.$toast.error(
-            `Check the network panel for details. Error: ${error.message}`
+            `Invalid user. Check the network panel for details`
           );
         });
     },
