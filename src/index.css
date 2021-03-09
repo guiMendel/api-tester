@@ -48,3 +48,19 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* notificacoes */
+.c-toast-container > .c-toast {
+  font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  
+  backdrop-filter: blur(2px);
+}
+
+.c-toast-container > .c-toast--success {
+  background-color: rgba(17, 158, 41, 0.85);
+}
+
+.c-toast-container > .c-toast--error {
+  background-color: rgba(235, 11, 11, 0.85);
+}

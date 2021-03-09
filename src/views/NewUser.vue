@@ -63,8 +63,14 @@ export default {
           age: this.age,
           email: this.email,
         })
-        .then(console.log)
-        .catch((error) => console.log({error}));
+        .then((response) => {
+          console.log(response)
+          this.$toast.success(`Successfully created user ${response.data.user.name}`)
+        })
+        .catch((error) => {
+          console.log({error})
+          this.$toast.error(`Check the network panel for details. Error: ${error.message}`)
+        });
     },
   },
 };

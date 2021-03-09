@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@meforma/vue-toaster": "^1.2.2",
     "axios": "^0.21.1",
     "material-design-icons": "^3.0.1",
     "vue": "^3.0.4",
