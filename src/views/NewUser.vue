@@ -55,6 +55,7 @@
 <script>
 import axios from "axios";
 import CurtainView from "../components/generic/CurtainView.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "NewUser",
@@ -69,6 +70,7 @@ export default {
     email: "",
   }),
   methods: {
+    ...mapActions(['addUser']),
     error_message(value, field) {
       if (!value) return "";
 
@@ -105,6 +107,7 @@ export default {
           this.$toast.success(
             `Successfully created user ${response.data.user.name}`
           );
+          this.addUser(response.data.user)
         })
         .catch((error) => {
           console.log({ error });
@@ -149,6 +152,6 @@ input {
 small {
   font-size: 1rem;
   font-style: italic;
-  color: var(--text-red)
+  color: var(--text-red);
 }
 </style>

@@ -22,7 +22,7 @@
 <script>
 import CircleButton from "../components/generic/CircleButton.vue";
 import User from "../components/User.vue";
-import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "Index",
@@ -30,19 +30,10 @@ export default {
     User,
     CircleButton,
   },
-  data() {
-    return {
-      users: [],
-    };
-  },
   created() {
-    axios
-      .get("https://mendel-rocketpay.herokuapp.com/api/users/")
-      .then(({ data }) => {
-        this.users = data;
-      })
-      .catch(console.error);
+    this.$store.dispatch("loadUsers");
   },
+  computed: mapState(["users"]),
 };
 </script>
 
