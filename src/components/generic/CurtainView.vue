@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     goBack() {
-      console.log(this);
       this.$router.go(-1);
     },
   },

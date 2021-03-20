@@ -15,39 +15,14 @@
         API's response to bad requests</em
       >
 
-      <label for="name">Name</label>
-      <input type="text" id="name" v-model="name" />
-      <!-- as mensagens de erro aparecem se o error -->
-      <small v-show="error_message(name, 'name')">{{
-        error_message(name, "name")
-      }}</small>
-
-      <label for="email">Email</label>
-      <input type="email" id="email" v-model="email" />
-      <small v-show="error_message(email, 'email')">{{
-        error_message(email, "email")
-      }}</small>
-
-      <label for="nickname">Nickname</label>
-      <input type="text" id="nickname" v-model="nickname" />
-      <small v-show="error_message(nickname, 'nickname')">{{
-        error_message(nickname, "nickname")
-      }}</small>
-      <em class="tip"
-        >Your nickname is how other users will be able to look you up!</em
-      >
-
-      <label for="age">Age</label>
-      <input type="number" id="age" v-model="age" />
-      <small v-show="error_message(age, 'age')">{{
-        error_message(age, "age")
-      }}</small>
-
-      <label for="password">Password</label>
-      <input type="password" id="password" v-model="password" />
-      <small v-show="error_message(password, 'password')">{{
-        error_message(password, "password")
-      }}</small>
+      <form-field
+        v-for="(data, field) in inputFields"
+        :key="field"
+        :name="field"
+        :check-for-error="errorChecker(field)"
+        :tip="data.tip"
+        @update="(new_value) => (data.value = new_value)"
+      />
     </div>
   </curtain-view>
 </template>
@@ -55,59 +30,76 @@
 <script>
 import axios from "axios";
 import CurtainView from "../components/generic/CurtainView.vue";
+import FormField from "../components/FormField.vue";
 import { mapActions } from "vuex";
 
 export default {
   name: "NewUser",
   components: {
     CurtainView,
+    FormField,
   },
   data: () => ({
-    name: "",
-    nickname: "",
-    age: "",
-    password: "",
-    email: "",
+    inputFields: {
+      name: { value: "" },
+      nickname: {
+        value: "",
+        tip: "Your nickname is how other users will be able to look you up!",
+      },
+      age: { value: "" },
+      password: { value: "" },
+      email: { value: "" },
+    },
   }),
   methods: {
-    ...mapActions(['addUser']),
-    error_message(value, field) {
-      if (!value) return "";
-
+    ...mapActions(["addUser"]),
+    // Retorna uma funcao que verifica se um texto eh valido ou nao. A funcao retornada depende de qual campo foi selecionado
+    errorChecker(field) {
       const field_handlers = {
-        nickname() {
+        name(value) {
           // IMPLEMENTAR checagem se eh unico
           return "";
         },
-        age: () => (value >= 18 ? "" : "User must be 18 or older"),
-        password: () =>
+        nickname(value) {
+          // IMPLEMENTAR checagem se eh unico
+          return "";
+        },
+        age: (value) => (value >= 18 ? "" : "User must be 18 or older"),
+        password: (value) =>
           value.length >= 6
             ? ""
             : "Password must be at least 6 characters long",
         // IMPLEMENTAR checagem se eh unico no email
-        email: () => (value.match(/.@./) ? "" : "Invalid email address"),
+        email: (value) => (value.match(/.@./) ? "" : "Invalid email address"),
       };
 
-      const handler = field_handlers[field] ?? (() => "");
+      const handler = field_handlers[field];
 
-      return handler();
+      if (!handler) {
+        console.error(
+          `No such field as "${field}" was declared in the NewUser component's errorChecker field_handlers`
+        );
+        return () => "";
+      }
+
+      return handler;
     },
     // faz a solicitacao de criar usuario para a API
     submitUser() {
       axios
         .post("https://mendel-rocketpay.herokuapp.com/api/users/", {
-          name: this.name,
-          nickname: this.nickname,
-          password: this.password,
-          age: this.age,
-          email: this.email,
+          name: this.inputFields.name.value,
+          nickname: this.inputFields.nickname.value,
+          password: this.inputFields.password.value,
+          age: this.inputFields.age.value,
+          email: this.inputFields.email.value,
         })
         .then((response) => {
           console.log(response);
           this.$toast.success(
             `Successfully created user ${response.data.user.name}`
           );
-          this.addUser(response.data.user)
+          this.addUser(response.data.user);
         })
         .catch((error) => {
           console.log({ error });
@@ -121,37 +113,10 @@ export default {
 </script>
 
 <style scoped>
-em {
-  font-weight: 300;
-  color: var(--text-light);
-  margin-top: 0.5rem;
-}
-
 .form-container {
   display: flex;
   flex-direction: column;
 
   align-items: flex-start;
-}
-
-label {
-  margin-top: 1rem;
-  font-size: 1.3rem;
-}
-
-input {
-  margin-top: 0.5rem;
-  border: 1px solid var(--light-gray);
-  border-radius: 10px;
-  background-color: var(--color-1);
-
-  width: 100%;
-  padding: 0.5rem 0.5rem;
-}
-
-small {
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--text-red);
 }
 </style>
