@@ -4,14 +4,11 @@ import axios from "axios"
 const store = createStore({
   state: () => ({
     users: [],
-    loading: true,
+    requests: []
   }),
   mutations: {
     setUsers: (state, new_list) => (state.users = new_list),
     pushUser: (state, user) => state.users.push(user),
-  },
-  actions: {
-    addUser: ({ commit }, user) => commit("pushUser", user),
   },
 })
 

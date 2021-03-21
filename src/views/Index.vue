@@ -1,13 +1,15 @@
 <template>
   <main>
-    <router-link id="add-user-button" to="/new-user">
-      <circle-button
-        icon_name="add"
-        tooltip="New User"
-        size="4rem"
-        color="var(--color-1)"
-      />
-    </router-link>
+    <!-- holds the buttons -->
+    <header>
+      <router-link to="/new-user">
+        <circle-button icon_name="add" size="4rem" color="var(--color-1)" />
+      </router-link>
+
+      <router-link to="/api-log">
+        <circle-button icon_name="api" size="4rem" color="var(--color-1)" />
+      </router-link>
+    </header>
 
     <span v-if="message">{{ message }}</span>
 
@@ -24,8 +26,8 @@
 <script>
 import CircleButton from "../components/generic/CircleButton.vue";
 import User from "../components/User.vue";
+import api from "../helpers/api";
 import { mapState } from "vuex";
-import axios from "axios";
 
 export default {
   name: "Index",
@@ -39,8 +41,8 @@ export default {
   created() {
     // Pega a lista de usuarios na api
     this.message = "Loading users...";
-    axios
-      .get("https://mendel-rocketpay.herokuapp.com/api/users/")
+    api
+      .fetchUsers()
       .then(({ data }) => {
         this.$store.commit("setUsers", data);
         this.message =
@@ -58,6 +60,17 @@ export default {
 </script>
 
 <style scoped>
+header {
+  position: sticky;
+  top: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 3rem;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -73,11 +86,5 @@ main > span {
   align-self: center;
   font-size: 2rem;
   font-weight: 300;
-}
-
-#add-user-button {
-  position: sticky;
-  top: 1rem;
-  width: min-content;
 }
 </style>

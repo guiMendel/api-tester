@@ -3,7 +3,7 @@
     <div
       class="buttons"
       :style="{
-        'justify-content': buttons.length > 0 ? 'space-between' : 'flex-start',
+        'justify-content': buttons?.length > 0 ? 'space-between' : 'flex-start',
       }"
       @click.self="goBack"
     >

@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router"
-import Index from "../views/Index.vue"
 import NewUser from "../views/NewUser.vue"
+import APILog from "../views/APILog.vue"
 
 const routes = [
   {
@@ -8,6 +8,15 @@ const routes = [
     name: "NewUser",
     component: NewUser,
   },
+  {
+    path: "/api-log",
+    name: "APILog",
+    component: APILog,
+  },
+  // {
+  //   path: "/",
+  //   name: "Index",
+  // },
 ]
 
 const router = createRouter({

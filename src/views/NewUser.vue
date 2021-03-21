@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import axios from "axios";
 import CurtainView from "../components/generic/CurtainView.vue";
 import FormField from "../components/FormField.vue";
-import { mapActions } from "vuex";
+import api from "../helpers/api";
+import { mapMutations } from "vuex";
 
 export default {
   name: "NewUser",
@@ -52,7 +52,7 @@ export default {
     },
   }),
   methods: {
-    ...mapActions(["addUser"]),
+    ...mapMutations(["pushUser"]),
     // Retorna uma funcao que verifica se um texto eh valido ou nao. A funcao retornada depende de qual campo foi selecionado
     errorChecker(field) {
       const field_handlers = {
@@ -86,8 +86,8 @@ export default {
     },
     // faz a solicitacao de criar usuario para a API
     submitUser() {
-      axios
-        .post("https://mendel-rocketpay.herokuapp.com/api/users/", {
+      api
+        .createUser({
           name: this.inputFields.name.value,
           nickname: this.inputFields.nickname.value,
           password: this.inputFields.password.value,
@@ -95,14 +95,12 @@ export default {
           email: this.inputFields.email.value,
         })
         .then((response) => {
-          console.log(response);
           this.$toast.success(
             `Successfully created user ${response.data.user.name}`
           );
-          this.addUser(response.data.user);
+          this.pushUser(response.data.user);
         })
         .catch((error) => {
-          console.log({ error });
           this.$toast.error(
             `Invalid user. Check the network panel for details`
           );
