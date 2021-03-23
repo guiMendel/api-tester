@@ -24,7 +24,7 @@
         :no_shadow="true"
       />
     </div>
-    <div class="curtain-view">
+    <div class="curtain-view" :class="{ dark, stretch }">
       <h1 v-if="title">{{ title }}</h1>
       <slot></slot>
     </div>
@@ -42,6 +42,8 @@ export default {
   props: {
     title: String,
     buttons: Array,
+    stretch: Boolean,
+    dark: Boolean,
   },
   methods: {
     goBack() {
@@ -82,6 +84,14 @@ export default {
   overflow: auto;
 
   padding: 2rem 1rem;
+}
+
+.dark {
+  background-color: var(--dark);
+}
+
+.stretch {
+  width: 100%;
 }
 
 .buttons {
