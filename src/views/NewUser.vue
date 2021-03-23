@@ -86,6 +86,7 @@ export default {
     },
     // faz a solicitacao de criar usuario para a API
     submitUser() {
+      this.$toast.show("Sending new user request...")
       api
         .createUser({
           name: this.inputFields.name.value,
@@ -102,7 +103,7 @@ export default {
         })
         .catch((error) => {
           this.$toast.error(
-            `Invalid user. Check the network panel for details`
+            `Invalid user. Check the API log for details`
           );
         });
     },

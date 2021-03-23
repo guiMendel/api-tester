@@ -71,7 +71,7 @@ export default {
   justify-content: center;
 
   /* espaços em cima e embaixo */
-  padding: 2rem 0.5rem 3rem;
+  padding: 2rem 1rem 3rem;
 }
 
 .curtain-view {

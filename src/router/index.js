@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router"
 import NewUser from "../views/NewUser.vue"
+import MainHeader from "../views/MainHeader.vue"
 import APILog from "../views/APILog.vue"
 
 const routes = [
@@ -13,10 +14,11 @@ const routes = [
     name: "APILog",
     component: APILog,
   },
-  // {
-  //   path: "/",
-  //   name: "Index",
-  // },
+  {
+    path: "/",
+    name: "Index",
+    component: MainHeader,
+  },
 ]
 
 const router = createRouter({

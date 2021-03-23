@@ -15,7 +15,7 @@ import "./index.css"
 import "./generic-classes.css"
 
 const notificationConfig = {
-  position: "top",
+  position: "bottom",
 }
 
 createApp(App)

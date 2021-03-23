@@ -60,6 +60,10 @@ body {
   background-color: rgba(17, 158, 41, 0.85);
 }
 
+.c-toast-container > .c-toast--default {
+  background-color: rgba(80, 80, 80, 0.85);
+}
+
 .c-toast-container > .c-toast--error {
   background-color: rgba(235, 11, 11, 0.85);
 }
