@@ -1,7 +1,11 @@
 <template>
-  <main>
-    <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <transition name="fade">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 
+  <main>
     <span v-if="message">{{ message }}</span>
 
     <user
@@ -54,7 +58,7 @@ main {
   flex-direction: column;
 
   /* padding to fit the header buttons */
-  padding: 6rem 1rem 2rem;
+  padding: 7rem 1rem 2rem;
 }
 
 main > * + * {
@@ -65,5 +69,15 @@ main > span {
   align-self: center;
   font-size: 2rem;
   font-weight: 300;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 150ms;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
