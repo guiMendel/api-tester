@@ -1,11 +1,11 @@
 <template>
-  <div class="curtain" @click.self="goBack">
+  <div class="curtain" @click.self="goHome">
     <div
       class="buttons"
       :style="{
         'justify-content': buttons?.length > 0 ? 'space-between' : 'flex-start',
       }"
-      @click.self="goBack"
+      @click.self="goHome"
     >
       <circle-button
         icon-name="arrow_back"
@@ -56,6 +56,9 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    goHome() {
+      this.$router.push("/");
     },
   },
 };
