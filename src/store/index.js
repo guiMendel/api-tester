@@ -4,7 +4,15 @@ import axios from "axios"
 const store = createStore({
   state: () => ({
     users: [],
-    requests: []
+    // Format:
+    /* {
+      method: String,
+      path: String,
+      body: Object,
+      response: { status: Number, statusText: String, data: Object },
+      timestamp: String, 
+    } */
+    requests: [],
   }),
   mutations: {
     setUsers: (state, new_list) => (state.users = new_list),

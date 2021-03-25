@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       // define as cores padreos dos botoes de controle, em cima
-      defaultButtonColor: this.dark ? "var(--dark)" : "var(--color-2)",
+      defaultButtonColor: this.dark ? "var(--darkest)" : "var(--color-2)",
       defaultIconColor: this.dark ? "white" : "inherit",
     };
   },
@@ -95,7 +95,7 @@ export default {
 }
 
 .dark {
-  background-color: var(--dark);
+  background-color: var(--darkest);
 }
 
 .stretch {

@@ -1,9 +1,17 @@
 <template>
   <div>
-    <section>
-      <span class="method">{{ method }}</span>
-      <span class="path">{{ path }}</span>
-    </section>
+    <div class="body">
+      <section>
+        <span class="method">{{ method }}</span>
+        <span class="path">{{ path }}</span>
+      </section>
+      <section :style="statusStyle">
+        <span class="status">{{ response.status }}</span>
+        <span class="statusText">{{
+          response.statusText
+        }}</span>
+      </section>
+    </div>
     <span class="timestamp">{{ timestamp }}</span>
   </div>
 </template>
@@ -15,6 +23,17 @@ export default {
     method: String,
     path: String,
     timestamp: String,
+    response: Object,
+  },
+  data() {
+    return {
+      statusStyle: {
+        "--status-color":
+          this.response.status >= 400
+            ? "var(--text-yellow)"
+            : "var(--text-green)",
+      },
+    };
   },
 };
 </script>
@@ -22,34 +41,68 @@ export default {
 <style scoped>
 div {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
 
   font-family: "Source Code Pro", monospace;
   font-weight: 300;
 }
 
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  background-color: var(--dark);
+  padding: 1rem;
+  border-radius: 20px 20px 0 0;
+}
+
+.body > * + * {
+  margin-top: 0.5rem;
+}
+
 section {
   display: flex;
   align-items: center;
+  color: white;
+}
+
+section > * + * {
+  margin-left: 0.5rem;
 }
 
 .method {
   text-transform: uppercase;
-  color: var(--text-green);
+  /* color: var(--text-green); */
   font-size: 1.3rem;
-  margin-right: 1rem;
   font-weight: 600;
 }
 
 .path {
   font-style: italic;
-  color: white;
+}
+
+.status,
+.statusText {
+  font-size: 1.3rem;
+}
+
+.status {
+  color: var(--status-color);
+  font-weight: 600;
 }
 
 .timestamp {
-  color: white;
+  text-align: end;
+
+  padding: 0.2rem 1.5rem;
+  border-radius: 0 0 20px 20px;
+  color: var(--light-gray);
+  font-size: 0.9rem;
+  background-color: var(--darker);
+  width: 100%;
 }
 </style>

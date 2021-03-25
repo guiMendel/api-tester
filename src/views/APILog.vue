@@ -3,12 +3,14 @@
     <p v-if="requests.length == 0">
       Your requests to the API will show up here! Go ahead and make some!
     </p>
-    <request-summary
-      v-for="request in requests"
-      v-bind="request"
-      :key="request.timestamp"
-      class="request"
-    />
+    <div class="request-container">
+      <request-summary
+        v-for="request in requests"
+        v-bind="request"
+        :key="request.timestamp"
+        class="request"
+      />
+    </div>
   </curtain-view>
 </template>
 
@@ -32,11 +34,12 @@ p {
   font-size: 2rem;
 }
 
-.request {
-  padding: 1rem 0;
+.request-container {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .request + .request {
-  border-top: 1px solid var(--gray);
+  margin-bottom: 0.7rem;
 }
 </style>
