@@ -26,6 +26,9 @@ div {
   justify-content: space-between;
 
   width: 100%;
+
+  font-family: "Source Code Pro", monospace;
+  font-weight: 300;
 }
 
 section {
@@ -38,6 +41,7 @@ section {
   color: var(--text-green);
   font-size: 1.3rem;
   margin-right: 1rem;
+  font-weight: 600;
 }
 
 .path {
@@ -48,5 +52,4 @@ section {
 .timestamp {
   color: white;
 }
-
 </style>

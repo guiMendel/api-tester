@@ -11,14 +11,15 @@
         icon_name="arrow_back"
         :no_shadow="true"
         @click="goBack"
-        button_color="var(--color-2)"
+        :button_color="defaultButtonColor"
+        :icon_color="defaultIconColor"
       />
       <circle-button
         v-for="button in buttons"
         :key="button.icon_name"
         :icon_name="button.icon_name"
-        :button_color="button.color[0] ?? 'var(--color-2)'"
-        :icon_color="button.color[1] ?? 'var(--text)'"
+        :button_color="button.color[0] ?? defaultButtonColor"
+        :icon_color="button.color[1] ?? defaultIconColor"
         :tooltip="button.tooltip"
         @click="button.action"
         :no_shadow="true"
@@ -44,6 +45,13 @@ export default {
     buttons: Array,
     stretch: Boolean,
     dark: Boolean,
+  },
+  data() {
+    return {
+      // define as cores padreos dos botoes de controle, em cima
+      defaultButtonColor: this.dark ? "var(--dark)" : "var(--color-2)",
+      defaultIconColor: this.dark ? "white" : "inherit",
+    };
   },
   methods: {
     goBack() {
