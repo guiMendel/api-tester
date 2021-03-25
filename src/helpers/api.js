@@ -13,7 +13,7 @@ function registerRequest(message) {
   store.commit("pushRequest", {
     method,
     path: url.match(/\/[^.]*$/)[0],
-    body,
+    body: body && JSON.parse(body),
     response: { status, statusText, data },
     timestamp: new Date().toLocaleTimeString(),
   })
