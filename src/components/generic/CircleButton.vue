@@ -8,14 +8,14 @@
       </p>
     </transition>
     <Button
-      :icon_name="icon_name"
+      :icon-name="iconName"
       :size="size"
-      :no_shadow="no_shadow"
+      :no-shadow="noShadow"
       @mouseover="showTooltip"
       @mouseleave="hideTooltip"
       :style="`
-      --background: ${button_color ?? 'white'};
-      --text: ${icon_color ?? 'var(--text)'}
+      --background: ${buttonColor ?? 'white'};
+      --text: ${iconColor ?? 'var(--text)'}
       `"
     />
   </div>
@@ -34,12 +34,12 @@ export default {
     };
   },
   props: {
-    icon_name: String,
+    iconName: String,
     tooltip: String,
     size: String,
-    no_shadow: Boolean,
-    button_color: String,
-    icon_color: String,
+    noShadow: Boolean,
+    buttonColor: String,
+    iconColor: String,
   },
   methods: {
     showTooltip() {

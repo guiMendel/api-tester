@@ -8,21 +8,21 @@
       @click.self="goBack"
     >
       <circle-button
-        icon_name="arrow_back"
-        :no_shadow="true"
+        icon-name="arrow_back"
+        :no-shadow="true"
         @click="goBack"
-        :button_color="defaultButtonColor"
-        :icon_color="defaultIconColor"
+        :button-color="defaultButtonColor"
+        :icon-color="defaultIconColor"
       />
       <circle-button
         v-for="button in buttons"
-        :key="button.icon_name"
-        :icon_name="button.icon_name"
-        :button_color="button.color[0] ?? defaultButtonColor"
-        :icon_color="button.color[1] ?? defaultIconColor"
+        :key="button.iconName"
+        :icon-name="button.iconName"
+        :button-color="button.color[0] ?? defaultButtonColor"
+        :icon-color="button.color[1] ?? defaultIconColor"
         :tooltip="button.tooltip"
         @click="button.action"
-        :no_shadow="true"
+        :no-shadow="true"
       />
     </div>
     <div class="curtain-view" :class="{ dark, stretch }">

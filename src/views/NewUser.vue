@@ -3,7 +3,7 @@
     title="Add a New User"
     :buttons="[
       {
-        icon_name: 'send',
+        iconName: 'send',
         color: ['var(--green)', 'white'],
         action: submitUser,
       },

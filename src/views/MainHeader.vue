@@ -1,11 +1,11 @@
 <template>
   <header>
     <router-link to="/new-user">
-      <circle-button icon_name="add" color="var(--color-1)" />
+      <circle-button icon-name="add" color="var(--color-1)" />
     </router-link>
 
     <router-link to="/api-log">
-      <circle-button icon_name="api" color="var(--color-1)" />
+      <circle-button icon-name="api" color="var(--color-1)" />
     </router-link>
   </header>
 </template>

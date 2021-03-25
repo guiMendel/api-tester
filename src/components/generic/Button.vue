@@ -1,9 +1,9 @@
 <template>
   <button
     :style="`--size: ${size ?? '56px'}`"
-    :class="{ 'smooth-foreground-element': !no_shadow ?? true }"
+    :class="{ 'smooth-foreground-element': !noShadow ?? true }"
   >
-    <span v-if="icon_name" class="material-icons-round">{{ icon_name }}</span>
+    <span v-if="iconName" class="material-icons-round">{{ iconName }}</span>
     <slot></slot>
   </button>
 </template>
@@ -13,9 +13,9 @@ export default {
   name: "Button",
   props: {
     text: String,
-    icon_name: String,
+    iconName: String,
     size: String,
-    no_shadow: Boolean,
+    noShadow: Boolean,
   },
 };
 </script>
