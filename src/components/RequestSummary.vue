@@ -76,13 +76,8 @@ section > * + * {
 
 .method {
   text-transform: uppercase;
-  /* color: var(--text-green); */
   font-size: 1.3rem;
   font-weight: 600;
-}
-
-.path {
-  font-style: italic;
 }
 
 .status,
