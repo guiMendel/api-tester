@@ -67,7 +67,6 @@ div {
 section {
   display: flex;
   align-items: center;
-  color: white;
 }
 
 section > * + * {

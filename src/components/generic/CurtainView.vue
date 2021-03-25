@@ -96,6 +96,7 @@ export default {
 
 .dark {
   background-color: var(--darkest);
+  color: white;
 }
 
 .stretch {

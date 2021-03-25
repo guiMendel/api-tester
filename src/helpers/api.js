@@ -27,7 +27,7 @@ function requestAndRegister(path, method, body = null) {
       return registerRequest(result)
     })
     .catch((error) => {
-      console.log({ error })
+      console.log(`Axios response to ${method} ${path}:`, error.response)
       registerRequest(error.response)
       throw error
     })
