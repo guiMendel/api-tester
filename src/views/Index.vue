@@ -1,5 +1,7 @@
 <template>
   <main>
+    <router-view></router-view>
+
     <span v-if="message">{{ message }}</span>
 
     <user
@@ -52,7 +54,7 @@ main {
   flex-direction: column;
 
   /* padding to fit the header buttons */
-  padding: 8rem 1rem 2rem;
+  padding: 6rem 1rem 2rem;
 }
 
 main > * + * {

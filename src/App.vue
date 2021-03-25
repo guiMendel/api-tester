@@ -1,6 +1,5 @@
 <template>
-  <index />
-
+  <!-- o v-slot eh so pra aplicar as trnasicoes -->
   <router-view v-slot="{ Component, route }">
     <!-- Use any custom transition and fallback to `fade` -->
     <transition :name="route.meta.transition || 'fade'">
