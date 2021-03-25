@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <div class="body">
+  <router-link :to="`/api-log/${index}`">
+    <div>
       <section>
         <span class="method">{{ method }}</span>
         <span class="path">{{ path }}</span>
       </section>
       <section :style="statusStyle">
         <span class="status">{{ response.status }}</span>
-        <span class="statusText">{{
-          response.statusText
-        }}</span>
+        <span class="statusText">{{ response.statusText }}</span>
       </section>
     </div>
     <span class="timestamp">{{ timestamp }}</span>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -24,6 +22,7 @@ export default {
     path: String,
     timestamp: String,
     response: Object,
+    index: Number,
   },
   data() {
     return {
@@ -39,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
-div {
+a {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +47,7 @@ div {
   font-weight: 300;
 }
 
-.body {
+div {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,7 +59,7 @@ div {
   border-radius: 20px 20px 0 0;
 }
 
-.body > * + * {
+div > * + * {
   margin-top: 0.5rem;
 }
 

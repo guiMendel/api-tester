@@ -5,8 +5,9 @@
     </p>
     <div class="request-container">
       <request-summary
-        v-for="request in requests"
+        v-for="(request, index) in requests"
         v-bind="request"
+        :index="index"
         :key="request.timestamp"
         class="request"
       />
