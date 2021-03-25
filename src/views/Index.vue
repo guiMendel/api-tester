@@ -52,7 +52,7 @@ main {
   flex-direction: column;
 
   /* padding to fit the header buttons */
-  padding: 8rem 1rem 0;
+  padding: 8rem 1rem 2rem;
 }
 
 main > * + * {
