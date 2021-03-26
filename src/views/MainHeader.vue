@@ -37,5 +37,13 @@ header {
   justify-content: space-between;
 
   margin-bottom: 3rem;
+
+  /* clicks through */
+  pointer-events: none;
+}
+
+header > a {
+  /* catches clicks */
+  pointer-events: auto;
 }
 </style>
