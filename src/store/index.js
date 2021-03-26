@@ -17,7 +17,7 @@ const store = createStore({
   mutations: {
     setUsers: (state, new_list) => (state.users = new_list),
     pushUser: (state, user) => state.users.push(user),
-    pushRequest: (state, request) => state.requests.push(request),
+    pushRequest: (state, request) => state.requests.unshift(request),
   },
 })
 

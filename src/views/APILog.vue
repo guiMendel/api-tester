@@ -1,16 +1,19 @@
 <template>
   <curtain-view stretch dark>
-    <p v-if="requests.length == 0">
-      Your requests to the API will show up here! Go ahead and make some!
-    </p>
-    <div class="request-container">
-      <request-summary
-        v-for="(request, index) in requests"
-        v-bind="request"
-        :index="index"
-        :key="request.timestamp"
-        class="request"
-      />
+    <div class="flex-column">
+      <p v-if="requests.length == 0">
+        Your requests to the API will show up here! Go ahead and make some!
+      </p>
+      <span v-else>Select a request to view it's details</span>
+      <div class="flex-column">
+        <request-summary
+          v-for="(request, index) in requests"
+          v-bind="request"
+          :index="index"
+          :key="request.timestamp"
+          class="request"
+        />
+      </div>
     </div>
   </curtain-view>
 </template>
@@ -35,9 +38,16 @@ p {
   font-size: 2rem;
 }
 
-.request-container {
+span {
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+.flex-column {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .request + .request {

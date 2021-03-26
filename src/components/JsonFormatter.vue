@@ -10,9 +10,6 @@ export default {
   props: {
     object: Object,
   },
-  created() {
-    console.log(this.text);
-  },
   computed: {
     text() {
       return parse(this.object);
