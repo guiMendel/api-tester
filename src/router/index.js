@@ -4,6 +4,7 @@ import MainHeader from "../views/MainHeader.vue"
 import Index from "../views/Index.vue"
 import APILog from "../views/APILog.vue"
 import APIRequest from "../views/APIRequest.vue"
+import UserDetails from "../views/UserDetails.vue"
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
         path: "/new-user",
         name: "NewUser",
         component: NewUser,
+      },
+      {
+        path: "/user/:id",
+        name: "UserDetails",
+        component: UserDetails,
       },
       {
         path: "/api-log",

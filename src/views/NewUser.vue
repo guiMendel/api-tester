@@ -45,7 +45,7 @@ export default {
         value: "",
         tip: "Your nickname is how other users will be able to look you up!",
       },
-      age: { value: "", type: "number" },
+      age: { value: "" },
       password: { value: "", type: "password" },
       email: { value: "", type: "email" },
     },

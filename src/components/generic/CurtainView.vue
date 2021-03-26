@@ -122,7 +122,5 @@ h1 {
   font-size: 2.5rem;
   font-weight: 400;
   margin: 0 1rem 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--light-gray);
 }
 </style>

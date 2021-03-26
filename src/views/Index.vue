@@ -14,6 +14,7 @@
       :nickname="user.nickname"
       :balance="user.account.balance"
       :key="user.id"
+      @click="selectUser(user.id)"
     />
   </main>
 </template>
@@ -49,6 +50,11 @@ export default {
       });
   },
   computed: mapState(["users"]),
+  methods: {
+    selectUser(id) {
+      this.$router.push(`/user/${id}`);
+    },
+  },
 };
 </script>
 

@@ -1,9 +1,21 @@
 import { createStore } from "vuex"
-import axios from "axios"
+
+function pushUser(state, user) {
+  state.users[user.id] = user
+}
 
 const store = createStore({
   state: () => ({
-    users: [],
+    // Format:
+    /* {
+      account: { balance: String, id: String },
+      age: Number,
+      email: String,
+      id: String,
+      name: String,
+      nickname: String
+    } */
+    users: {},
     // Format:
     /* {
       method: String,
@@ -15,9 +27,13 @@ const store = createStore({
     requests: [],
   }),
   mutations: {
-    setUsers: (state, new_list) => (state.users = new_list),
-    pushUser: (state, user) => state.users.push(user),
+    setUsers: (state, new_list) =>
+      new_list.map((user) => pushUser(state, user)),
+    pushUser,
     pushRequest: (state, request) => state.requests.unshift(request),
+  },
+  getters: {
+    getUser: (state) => (id) => state.users[id],
   },
 })
 

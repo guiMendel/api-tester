@@ -42,8 +42,6 @@ div {
 .user-info {
   width: 100%;
   margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--washed-gray);
 }
 
 /* name */
