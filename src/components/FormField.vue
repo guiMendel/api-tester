@@ -1,9 +1,14 @@
 <template>
   <label :for="name">{{ title }}</label>
-  <input :type="type" :id="name" v-model="inputText" @blur="updateField()" />
+  <input
+    :type="target.type ?? 'text'"
+    :id="name"
+    v-model="target.value"
+    @blur="updateField()"
+  />
   <!-- as mensagens de erro aparecem se o error -->
   <small v-show="errorMessage">{{ errorMessage }}</small>
-  <em v-if="tip" class="tip">{{ tip }}</em>
+  <em v-if="target.tip" class="tip">{{ target.tip }}</em>
 </template>
 
 <script>
@@ -11,14 +16,12 @@ export default {
   name: "FormField",
   props: {
     name: String,
-    type: { type: String, default: "text" },
-    tip: String,
+    target: Object,
     // Returns the error message in case the user inputted something invalid
     checkForError: Function,
   },
   emits: ["update"],
   data: () => ({
-    inputText: "",
     errorMessage: "",
   }),
   computed: {
@@ -35,8 +38,7 @@ export default {
   },
   methods: {
     updateField() {
-      this.errorMessage = this.checkForError(this.inputText);
-      this.$emit("update", this.inputText);
+      this.errorMessage = this.checkForError(this.target.value);
     },
   },
 };

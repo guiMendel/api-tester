@@ -9,7 +9,7 @@
       },
     ]"
   >
-    <div class="form-container">
+    <form @submit="submitUser">
       <em
         >The form can be submited however you like, so that you can test the
         API's response to bad requests</em
@@ -20,10 +20,9 @@
         :key="field"
         :name="field"
         :check-for-error="errorChecker(field)"
-        :tip="data.tip"
-        @update="(new_value) => (data.value = new_value)"
+        :target="data"
       />
-    </div>
+    </form>
   </curtain-view>
 </template>
 
@@ -46,9 +45,9 @@ export default {
         value: "",
         tip: "Your nickname is how other users will be able to look you up!",
       },
-      age: { value: "" },
-      password: { value: "" },
-      email: { value: "" },
+      age: { value: "", type: "number" },
+      password: { value: "", type: "password" },
+      email: { value: "", type: "email" },
     },
   }),
   methods: {
@@ -85,8 +84,11 @@ export default {
       return handler;
     },
     // faz a solicitacao de criar usuario para a API
-    submitUser() {
-      this.$toast.show("Sending new user request...")
+    submitUser(event) {
+      // se recebeu um evento impede a pagina de recarregar
+      event?.preventDefault();
+
+      this.$toast.show("Sending new user request...");
       api
         .createUser({
           name: this.inputFields.name.value,
@@ -102,9 +104,7 @@ export default {
           this.pushUser(response.data.user);
         })
         .catch((error) => {
-          this.$toast.error(
-            `Invalid user. Check the API log for details`
-          );
+          this.$toast.error(`Invalid user. Check the API log for details`);
         });
     },
   },
@@ -112,7 +112,7 @@ export default {
 </script>
 
 <style scoped>
-.form-container {
+form {
   display: flex;
   flex-direction: column;
 
