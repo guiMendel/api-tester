@@ -20,6 +20,7 @@
     </main>
 
     <tab-view
+      dark
       :tabs="['Response', 'Request']"
       default-message="No body provided"
     >

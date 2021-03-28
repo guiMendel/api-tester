@@ -4,16 +4,16 @@
       <span
         v-for="(tab, index) in tabs"
         :key="tab"
-        :class="index == activeTab && 'active'"
+        :class="{ dark, active: index == activeTab }"
         @click="activeTab = index"
         >{{ tab }}</span
       >
     </header>
-    <main>
+    <main :class="{ dark }">
       <section
         v-for="(tab, index) in tabs"
         :key="tab"
-        :class="index == activeTab && 'active'"
+        :class="{ active: index == activeTab }"
       >
         <slot :name="tab.toLowerCase()">
           <p class="missing-slot">{{ defaultMessage }}</p>
@@ -32,6 +32,7 @@ export default {
       type: String,
       default: "Nothing to see here...",
     },
+    dark: Boolean,
   },
   data: () => ({
     activeTab: 0,
@@ -49,7 +50,7 @@ header {
 }
 
 span {
-  background-color: var(--dark);
+  background-color: var(--washed-gray);
   padding: 0.5rem;
   flex: 1;
   border-radius: 20px 20px 0 0;
@@ -66,7 +67,7 @@ span.active {
 }
 
 main {
-  background-color: var(--dark);
+  background-color: var(--washed-gray);
   border-radius: 20px;
   padding: 1rem;
 }
@@ -83,4 +84,14 @@ section.active {
   margin: 1rem;
   font-size: 1.2rem;
 }
+
+.dark {
+  background-color: var(--dark);
+  color: white;
+}
+
+.stretch {
+  width: 100%;
+}
+
 </style>

@@ -1,21 +1,31 @@
 <template>
   <curtain-view :title="user?.name" stretch>
     <h1>{{ user?.nickname }}</h1>
-    <main>
-      <span><b>Age</b> {{ user?.age }} </span>
-      <span><b>Email</b> {{ user?.email }} </span>
-      <span><b>ID</b> {{ user?.id }} </span>
-    </main>
+    <tab-view :tabs="['Actions', 'Details']">
+      <template #actions>
+        {{ user?.account.balance }}
+      </template>
+      <template #details>
+        <main>
+          <span><b>Age</b> {{ user?.age }} </span>
+          <span><b>Email</b> {{ user?.email }} </span>
+          <span><b>ID</b> {{ user?.id }} </span>
+          <span><b>Account ID</b> {{ user?.account.id }} </span>
+        </main>
+      </template>
+    </tab-view>
   </curtain-view>
 </template>
 
 <script>
 import CurtainView from "../components/generic/CurtainView.vue";
+import TabView from "../components/generic/TabView.vue";
 
 export default {
   name: "UserDetails",
   components: {
     CurtainView,
+    TabView,
   },
   computed: {
     user() {
@@ -32,7 +42,7 @@ h1 {
   font-style: italic;
   font-size: 1.8rem;
   color: var(--text-light);
-  margin: -0.8rem 0 2rem;
+  margin: -0.8rem 0 1rem;
 }
 
 main {
@@ -44,22 +54,15 @@ main {
   flex-wrap: wrap;
   gap: 1rem;
 
+  font-size: 1.2rem;
+  text-align: start;
+
   padding: 0 1rem;
-  margin-bottom: 1rem;
 }
 
 span {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-
-  min-width: 7rem;
-
-  font-size: 1.3rem;
-}
-
-b {
-  font-family: "Source Code Pro", monospace;
 }
 </style>
