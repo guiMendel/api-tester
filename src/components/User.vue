@@ -5,7 +5,7 @@
       <h2>{{ nickname }}</h2>
     </div>
     <p>
-      {{ balance }}
+      $ {{ balance }}
     </p>
   </div>
 </template>
@@ -55,6 +55,8 @@ h2 {
   font-size: 1.3rem;
   color: var(--gray);
   font-weight: 300;
+  /* font-style: italic; */
+  font-family: "Source Code Pro", monospace;
 }
 
 /* balance */
@@ -62,5 +64,6 @@ p {
   font-size: 2rem;
   font-weight: 400;
   color: var(--blue);
+  letter-spacing: 0.1rem;
 }
 </style>
