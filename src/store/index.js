@@ -30,6 +30,7 @@ const store = createStore({
     setUsers: (state, new_list) =>
       new_list.map((user) => pushUser(state, user)),
     pushUser,
+    removeUser: (state, userId) => delete state.users[userId],
     pushRequest: (state, request) => state.requests.unshift(request),
   },
   getters: {

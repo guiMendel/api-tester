@@ -47,4 +47,10 @@ export default {
       user,
     )
   },
+  deleteUser(userId) {
+    return requestAndRegister(
+      `https://mendel-rocketpay.herokuapp.com/api/users/${userId}`,
+      "delete",
+    )
+  },
 }

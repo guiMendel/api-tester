@@ -1,11 +1,20 @@
 <template>
-  <curtain-view :title="user?.name" stretch>
+  <curtain-view
+    :title="user?.name"
+    stretch
+    :buttons="[
+      {
+        iconName: 'delete',
+        color: ['var(--text-red)', 'white'],
+        action: deleteSelf,
+      },
+    ]"
+  >
     <h1>{{ user?.nickname }}</h1>
     <h2>$ {{ user?.account.balance }}</h2>
     <tab-view :tabs="['Actions', 'Details']">
       <template #actions>
         <form>
-          colocar umas transitions nesses efeitos de selecao
           <div class="action-options">
             <button
               v-for="action in actions"
@@ -17,9 +26,18 @@
             </button>
           </div>
 
-          <select v-show="selectedAction === 'Transfer'">
-            <option value="Ok">hahah</option>
-            <option value="lol">jooj</option>
+          <select
+            v-show="selectedAction === 'Transfer'"
+            v-model="transferTarget"
+          >
+            <option disabled value="">Transfer to</option>
+            <option
+              v-for="targetUser in users"
+              :value="targetUser.id"
+              :key="targetUser.id"
+            >
+              {{ targetUser.nickname }}
+            </option>
           </select>
 
           <input type="text" placeholder="Amount" />
@@ -41,6 +59,8 @@
 <script>
 import CurtainView from "../components/generic/CurtainView.vue";
 import TabView from "../components/generic/TabView.vue";
+import { mapState } from "vuex";
+import api from "../helpers/api";
 
 const allowedActions = ["Withdraw", "Deposit", "Transfer"];
 
@@ -53,19 +73,42 @@ export default {
   data: () => ({
     actions: allowedActions,
     selectedAction: allowedActions[0],
+    amount: "",
+    transferTarget: "",
   }),
   computed: {
     user() {
       const userId = this.$route.params.id;
       return this.$store.getters.getUser(userId);
     },
+    ...mapState(["users"]),
   },
   methods: {
     submitAction(event) {
       console.log(event);
+      console.log(this.transferTarget);
     },
     selectAction(action) {
       this.selectedAction = action;
+    },
+    deleteSelf() {
+      if (confirm(`Delete user ${this.user.nickname}?`)) {
+        this.$toast.show(`Deleting user ${this.user.nickname}...`);
+        api
+          .deleteUser(this.user.id)
+          .then(() => {
+            this.$toast.success(
+              `Successfully deleted user ${this.user.nickname}!`
+            );
+            this.$store.commit("removeUser", this.user.id);
+            this.$router.push("/");
+          })
+          .catch(() => {
+            this.$toast.error(
+              `Couldn't delete user ${this.user.nickname}, check API log for details`
+            );
+          });
+      }
     },
   },
 };
@@ -131,6 +174,7 @@ form > * + * {
   background-color: var(--light-gray);
 
   width: 100%;
+  transition: all 150ms;
 }
 
 .action-options *:first-child {
