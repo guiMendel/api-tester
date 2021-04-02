@@ -80,6 +80,8 @@ span {
   justify-content: space-between;
   width: 100%;
 
+  flex-wrap: wrap;
+
   font-size: 1.3rem;
 }
 

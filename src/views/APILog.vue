@@ -51,6 +51,6 @@ span {
 }
 
 .request + .request {
-  margin-bottom: 0.7rem;
+  margin-top: 0.7rem;
 }
 </style>
