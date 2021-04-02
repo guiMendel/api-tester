@@ -1,6 +1,14 @@
 import axios from "axios"
 import store from "../store"
 
+// extra argument for axios requests
+const opts = {
+  auth: {
+    username: "pirata",
+    password: "ahoy",
+  },
+}
+
 /// Turns an axios response into the format to be stored as a request in vuex and stores it
 function registerRequest(message) {
   const {
@@ -21,7 +29,7 @@ function registerRequest(message) {
 }
 
 function requestAndRegister(path, method, body = null) {
-  return axios[method](path, body)
+  return axios[method](path, body, opts)
     .then((result) => {
       console.log(`Axios response to ${method} ${path}:`, result)
       return registerRequest(result)
@@ -34,23 +42,32 @@ function requestAndRegister(path, method, body = null) {
 }
 
 export default {
-  fetchUsers() {
-    return requestAndRegister(
+  fetchUsers: () =>
+    requestAndRegister(
       "https://mendel-rocketpay.herokuapp.com/api/users/",
       "get",
-    )
-  },
-  createUser(user) {
-    return requestAndRegister(
+    ),
+  createUser: (user) =>
+    requestAndRegister(
       "https://mendel-rocketpay.herokuapp.com/api/users/",
       "post",
       user,
-    )
-  },
-  deleteUser(userId) {
-    return requestAndRegister(
+    ),
+  deleteUser: (userId) =>
+    requestAndRegister(
       `https://mendel-rocketpay.herokuapp.com/api/users/${userId}`,
       "delete",
-    )
-  },
+    ),
+  accountWithdraw: (accountId, value) =>
+    requestAndRegister(
+      `https://mendel-rocketpay.herokuapp.com/api/accounts/${accountId}/withdraw`,
+      "post",
+      { value },
+    ),
+  accountDeposit: (accountId, value) =>
+    requestAndRegister(
+      `https://mendel-rocketpay.herokuapp.com/api/accounts/${accountId}/deposit`,
+      "post",
+      { value },
+    ),
 }

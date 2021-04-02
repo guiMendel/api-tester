@@ -32,6 +32,12 @@ const store = createStore({
     pushUser,
     removeUser: (state, userId) => delete state.users[userId],
     pushRequest: (state, request) => state.requests.unshift(request),
+    updateUserBalance: (state, { userId, value }) => {
+      const account = state.users[userId].account
+      account.balance = (
+        parseFloat(account.balance) + parseFloat(value)
+      ).toFixed(2)
+    },
   },
   getters: {
     getUser: (state) => (id) => state.users[id],

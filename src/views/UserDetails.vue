@@ -40,7 +40,8 @@
             </option>
           </select>
 
-          <input type="text" placeholder="Amount" />
+          <input type="text" placeholder="Amount" v-model="amount" />
+
           <button @click.prevent="submitAction">Submit</button>
         </form>
       </template>
@@ -70,12 +71,18 @@ export default {
     CurtainView,
     TabView,
   },
-  data: () => ({
-    actions: allowedActions,
-    selectedAction: allowedActions[0],
-    amount: "",
-    transferTarget: "",
-  }),
+  data() {
+    return {
+      actions: allowedActions,
+      selectedAction: allowedActions[0],
+      amount: "",
+      transferTarget: "",
+      actionMapping: {
+        Withdraw: this.withdraw,
+        Deposit: this.deposit,
+      },
+    };
+  },
   computed: {
     user() {
       const userId = this.$route.params.id;
@@ -87,6 +94,10 @@ export default {
     submitAction(event) {
       console.log(event);
       console.log(this.transferTarget);
+      const action =
+        this.actionMapping[this.selectedAction] ??
+        ((toast) => toast.show("Oops, this action is not yet implemented!"));
+      action(this.$toast)
     },
     selectAction(action) {
       this.selectedAction = action;
@@ -109,6 +120,56 @@ export default {
             );
           });
       }
+    },
+    withdraw() {
+      this.$toast.show(
+        `Withdrawing $${this.amount} from ${this.user.nickname}...`
+      );
+      api
+        .accountWithdraw(this.user.account.id, this.amount)
+        .then(() => {
+          this.$toast.success("Withdrawal complete!");
+          this.$store.commit("updateUserBalance", {
+            userId: this.user.id,
+            value: -this.amount,
+          });
+        })
+        .catch((error) => {
+          const message = error?.response?.data?.message;
+          if (message) {
+            this.$toast.error(`${message}. Check API log for details`);
+          } else {
+            this.$toast.error(
+              `An error occured. Check the console for details`
+            );
+            console.log({ error });
+          }
+        });
+    },
+    deposit() {
+      this.$toast.show(
+        `Depositing $${this.amount} to ${this.user.nickname}...`
+      );
+      api
+        .accountDeposit(this.user.account.id, this.amount)
+        .then(() => {
+          this.$toast.success("Deposit complete!");
+          this.$store.commit("updateUserBalance", {
+            userId: this.user.id,
+            value: this.amount,
+          });
+        })
+        .catch((error) => {
+          const message = error?.response?.data?.message;
+          if (message) {
+            this.$toast.error(`${message}. Check API log for details`);
+          } else {
+            this.$toast.error(
+              `An error occured. Check the console for details`
+            );
+            console.log({ error });
+          }
+        });
     },
   },
 };
@@ -210,6 +271,10 @@ select {
 form > button {
   background-color: var(--blue);
   color: white;
+}
+
+form > button:active {
+  filter: brightness(0.8) grayscale(20%);
 }
 
 span {
