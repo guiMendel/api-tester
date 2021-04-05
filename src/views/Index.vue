@@ -6,8 +6,6 @@
   </router-view>
 
   <main>
-    <h1>Rocketpay Users</h1>
-
     <span v-if="message">{{ message }}</span>
 
     <div>
@@ -65,6 +63,10 @@ export default {
 
 <style scoped>
 main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   /* padding to fit the header buttons */
   padding: 7rem 1rem 2rem;
 }
@@ -114,6 +116,11 @@ main > span {
 @media only screen and (min-width: 1100px) {
   main {
     padding: 2rem 5%;
+  }
+
+  div {
+    min-height: 100%;
+    align-items: center;
   }
 }
 </style>
