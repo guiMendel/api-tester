@@ -12,7 +12,7 @@
       --text: ${iconColor ?? 'var(--button-text)'}
       `"
     />
-    <p class="tooltip">
+    <p v-if="tooltip" class="tooltip" :style="`--size: ${size ?? '56px'}`">
       {{ tooltip }}
     </p>
   </div>
@@ -58,6 +58,8 @@ button {
   opacity: 0;
   transition: all 150ms;
 
+  max-height: var(--size);
+
   color: white;
   font-size: 1.3rem;
 
@@ -76,15 +78,15 @@ button {
 }
 
 @media only screen and (min-width: 1100px) {
-  /* keeps button from increasing height when tooltip pops up */
+  /* keeps button from increasing height when tooltip pops up
   .button {
     margin: 0.2rem 0;
-  }
+  } */
 
   .tooltip {
     display: initial;
   }
-  
+
   .button:hover + .tooltip {
     opacity: 1;
   }

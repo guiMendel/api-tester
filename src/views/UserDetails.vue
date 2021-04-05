@@ -1,7 +1,6 @@
 <template>
   <curtain-view
     :title="user?.name"
-    stretch
     :buttons="[
       {
         iconName: 'delete',
@@ -27,25 +26,27 @@
             </button>
           </div>
 
-          <!-- input for selecting target to transfer to, when action is Transfer -->
-          <select
-            v-show="selectedAction === 'Transfer'"
-            v-model="transferTarget"
-          >
-            <option disabled value="">Transfer to</option>
-            <option
-              v-for="targetUser in users"
-              :value="targetUser.id"
-              :key="targetUser.id"
+          <div class="action-details">
+            <!-- input for selecting target to transfer to, when action is Transfer -->
+            <select
+              v-show="selectedAction === 'Transfer'"
+              v-model="transferTarget"
             >
-              {{ targetUser.nickname }}
-            </option>
-          </select>
+              <option disabled value="">Transfer to</option>
+              <option
+                v-for="targetUser in users"
+                :value="targetUser.id"
+                :key="targetUser.id"
+              >
+                {{ targetUser.nickname }}
+              </option>
+            </select>
 
-          <!-- the amount on which to perform the operation -->
-          <input type="text" placeholder="Amount" v-model="amount" />
+            <!-- the amount on which to perform the operation -->
+            <input type="text" placeholder="Amount" v-model="amount" />
 
-          <button @click.prevent="submitAction">Submit</button>
+            <button @click.prevent="submitAction">Submit</button>
+          </div>
         </form>
       </template>
       <template #details>
@@ -228,18 +229,19 @@ main {
 
 form {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
+  row-gap: 1.2rem;
+  column-gap: 3rem;
+
   font-size: 1.4rem;
 }
 
-form > * + * {
-  margin-top: 1.2rem;
-}
-
 .action-options {
-  width: 15rem;
-  min-width: max-content;
+  width: clamp(10rem, 25vw, 15rem);
+  min-width: 15rem;
 
   display: flex;
   flex-direction: column;
@@ -247,6 +249,10 @@ form > * + * {
   justify-content: center;
 
   flex-wrap: wrap;
+}
+
+button {
+  cursor: pointer;
 }
 
 .action-options * {
@@ -267,6 +273,13 @@ form > * + * {
   border-radius: 0 0 20px 20px;
 }
 
+.action-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
 .selected {
   background-color: var(--blue);
   color: white;
@@ -274,8 +287,8 @@ form > * + * {
 
 input,
 select,
-form > button {
-  width: 10rem;
+.action-details > button {
+  width: clamp(10rem, 25vw, 15rem);
   padding: 0.5rem;
   text-align: center;
   font-size: 1.2rem;
@@ -285,16 +298,12 @@ form > button {
   border-radius: 20px;
 }
 
-select {
-  width: 100%;
-}
-
-form > button {
+.action-details > button {
   background-color: var(--blue);
   color: white;
 }
 
-form > button:active {
+.action-details > button:active {
   filter: brightness(0.8) grayscale(20%);
 }
 
@@ -302,5 +311,11 @@ span {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+@media only screen and (min-width: 550px) {
+  form {
+    padding: 1rem 0;
+  }
 }
 </style>
