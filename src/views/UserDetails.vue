@@ -125,65 +125,61 @@ export default {
           });
       }
     },
-    // withdraw and deposit need refactoring! Not DRY enough
+    accountOperation({ initialMessage, apiWrapper, successWrapper }) {
+      this.$toast.show(initialMessage);
+      apiWrapper()
+        .then(successWrapper)
+        .catch((error) => {
+          const message = error?.response?.data?.message;
+          if (message) {
+            this.$toast.error(`${message}. Check API log for details`);
+          } else {
+            this.$toast.error(
+              `An error occured. Check the console for details`
+            );
+            console.log({ error });
+          }
+        });
+    },
     withdraw() {
-      this.$toast.show(
-        `Withdrawing $${this.amount} from ${this.user.nickname}...`
-      );
-      api
-        .accountWithdraw(this.user.account.id, this.amount)
-        .then(() => {
+      this.accountOperation({
+        initialMessage: `Withdrawing $${this.amount} from ${this.user.nickname}...`,
+        apiWrapper: () =>
+          api.accountWithdraw(this.user.account.id, this.amount),
+        successWrapper: () => {
           this.$toast.success("Withdrawal complete!");
           this.$store.commit("updateUserBalance", {
             userId: this.user.id,
             value: -this.amount,
           });
-        })
-        .catch((error) => {
-          const message = error?.response?.data?.message;
-          if (message) {
-            this.$toast.error(`${message}. Check API log for details`);
-          } else {
-            this.$toast.error(
-              `An error occured. Check the console for details`
-            );
-            console.log({ error });
-          }
-        });
+        },
+      });
     },
     deposit() {
-      this.$toast.show(
-        `Depositing $${this.amount} to ${this.user.nickname}...`
-      );
-      api
-        .accountDeposit(this.user.account.id, this.amount)
-        .then(() => {
+      this.accountOperation({
+        initialMessage: `Depositing $${this.amount} to ${this.user.nickname}...`,
+        apiWrapper: () => api.accountDeposit(this.user.account.id, this.amount),
+        successWrapper: () => {
           this.$toast.success("Deposit complete!");
           this.$store.commit("updateUserBalance", {
             userId: this.user.id,
             value: this.amount,
           });
-        })
-        .catch((error) => {
-          const message = error?.response?.data?.message;
-          if (message) {
-            this.$toast.error(`${message}. Check API log for details`);
-          } else {
-            this.$toast.error(
-              `An error occured. Check the console for details`
-            );
-            console.log({ error });
-          }
-        });
+        },
+      });
     },
     transfer() {
       const targetUser = this.users[this.transferTarget];
-      this.$toast.show(
-        `Transfering $${this.amount} from ${this.user.nickname} to ${targetUser.nickname}...`
-      );
-      api
-        .transfer(this.user.account.id, targetUser.account.id, this.amount)
-        .then(() => {
+
+      this.accountOperation({
+        initialMessage: `Transfering $${this.amount} from ${this.user.nickname} to ${targetUser.nickname}...`,
+        apiWrapper: () =>
+          api.transfer(
+            this.user.account.id,
+            targetUser.account.id,
+            this.amount
+          ),
+        successWrapper: () => {
           this.$toast.success("Transfer complete!");
           this.$store.commit("updateUserBalance", {
             userId: this.user.id,
@@ -193,18 +189,8 @@ export default {
             userId: this.transferTarget,
             value: this.amount,
           });
-        })
-        .catch((error) => {
-          const message = error?.response?.data?.message;
-          if (message) {
-            this.$toast.error(`${message}. Check API log for details`);
-          } else {
-            this.$toast.error(
-              `An error occured. Check the console for details`
-            );
-            console.log({ error });
-          }
-        });
+        },
+      });
     },
   },
 };
