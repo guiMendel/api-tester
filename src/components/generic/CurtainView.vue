@@ -121,7 +121,7 @@ main > * {
 }
 
 .stretch {
-  width: 100%;
+  min-width: 25vw;
 }
 
 .buttons {

@@ -93,7 +93,7 @@ section.active {
 }
 
 .stretch {
-  width: 100%;
+  min-width: 25vw;
 }
 
 @media only screen and (min-width: 1100px) {

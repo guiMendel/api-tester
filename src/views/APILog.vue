@@ -1,6 +1,6 @@
 <template>
   <curtain-view stretch dark>
-    <div class="flex-column">
+    <div class="container flex-column">
       <p v-if="requests.length == 0">
         Your requests to the API will show up here! Go ahead and make some!
       </p>

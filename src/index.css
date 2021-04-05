@@ -19,6 +19,17 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 span,
 p,
 h1 {
@@ -40,7 +51,7 @@ body {
 .c-toast-container > .c-toast {
   font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
   font-size: 1.2rem;
-  
+
   backdrop-filter: blur(2px);
 }
 
