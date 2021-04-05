@@ -172,6 +172,13 @@ export default {
     transfer() {
       const targetUser = this.users[this.transferTarget];
 
+      if (!targetUser) {
+        this.$toast.error(
+          "Please, select a target user for the money transfer"
+        );
+        return;
+      }
+
       this.accountOperation({
         initialMessage: `Transfering $${this.amount} from ${this.user.nickname} to ${targetUser.nickname}...`,
         apiWrapper: () =>
