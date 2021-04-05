@@ -1,34 +1,37 @@
 <template>
   <div class="curtain" @click.self="goHome">
-    <div
-      class="buttons"
-      :style="{
-        'justify-content': buttons?.length > 0 ? 'space-between' : 'flex-start',
-      }"
-      @click.self="goHome"
-    >
-      <circle-button
-        icon-name="arrow_back"
-        :no-shadow="true"
-        @click="goBack"
-        :button-color="defaultButtonColor"
-        :icon-color="defaultIconColor"
-      />
-      <circle-button
-        v-for="button in buttons"
-        :key="button.iconName"
-        :icon-name="button.iconName"
-        :button-color="button.color[0] ?? defaultButtonColor"
-        :icon-color="button.color[1] ?? defaultIconColor"
-        :tooltip="button.tooltip"
-        @click="button.action"
-        :no-shadow="true"
-      />
-    </div>
-    <div class="curtain-view" :class="{ dark, stretch }">
-      <h1 v-if="title">{{ title }}</h1>
-      <slot></slot>
-    </div>
+    <main :class="{ stretch }">
+      <div
+        class="buttons"
+        :style="{
+          'justify-content':
+            buttons?.length > 0 ? 'space-between' : 'flex-start',
+        }"
+        @click.self="goHome"
+      >
+        <circle-button
+          icon-name="arrow_back"
+          :no-shadow="true"
+          @click="goBack"
+          :button-color="defaultButtonColor"
+          :icon-color="defaultIconColor"
+        />
+        <circle-button
+          v-for="button in buttons"
+          :key="button.iconName"
+          :icon-name="button.iconName"
+          :button-color="button.color[0] ?? defaultButtonColor"
+          :icon-color="button.color[1] ?? defaultIconColor"
+          :tooltip="button.tooltip"
+          @click="button.action"
+          :no-shadow="true"
+        />
+      </div>
+      <div class="curtain-view" :class="{ dark, stretch }">
+        <h1 v-if="title">{{ title }}</h1>
+        <slot></slot>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -79,7 +82,6 @@ export default {
 
   /* dentro dela vai ter um elemento, a view */
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -87,9 +89,25 @@ export default {
   padding: 2rem 1rem 3rem;
 }
 
-.curtain-view {
+main {
   max-height: 100%;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* clicks through */
+  pointer-events: none;
+}
+
+main > * {
+  /* catches clicks */
+  pointer-events: auto;
+}
+
+.curtain-view {
+  width: 100%;
   background-color: var(--color-2);
   border-radius: 20px;
   overflow: auto;
@@ -103,7 +121,7 @@ export default {
 }
 
 .stretch {
-  width: 100%;
+  min-width: 25vw;
 }
 
 .buttons {
@@ -122,5 +140,20 @@ h1 {
   font-size: 2.5rem;
   font-weight: 400;
   margin: 0 1rem 1rem;
+}
+
+@media only screen and (min-width: 550px) {
+  .curtain {
+    padding: 4rem 10%;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  .curtain {
+    padding: 4rem 20%;
+  }
+  .curtain-view {
+    padding: 3rem 2rem;
+  }
 }
 </style>

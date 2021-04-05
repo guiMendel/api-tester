@@ -2,22 +2,19 @@
 // uma tootltip que em hover aparece com um texto
 <template>
   <div class="container">
-    <transition name="fade">
-      <p v-show="show && tooltip" class="tooltip">
-        {{ tooltip }}
-      </p>
-    </transition>
     <Button
+      class="button"
       :icon-name="iconName"
       :size="size"
       :no-shadow="noShadow"
-      @mouseover="showTooltip"
-      @mouseleave="hideTooltip"
       :style="`
-      --background: ${buttonColor ?? 'white'};
-      --text: ${iconColor ?? 'var(--text)'}
+      --background: ${buttonColor ?? 'var(--button-bg)'};
+      --text: ${iconColor ?? 'var(--button-text)'}
       `"
     />
+    <p v-if="tooltip" class="tooltip" :style="`--size: ${size ?? '56px'}`">
+      {{ tooltip }}
+    </p>
   </div>
 </template>
 
@@ -28,11 +25,6 @@ export default {
   components: {
     Button,
   },
-  data() {
-    return {
-      show: false,
-    };
-  },
   props: {
     iconName: String,
     tooltip: String,
@@ -41,22 +33,13 @@ export default {
     buttonColor: String,
     iconColor: String,
   },
-  methods: {
-    showTooltip() {
-      this.show = true;
-      // pra esse trem n correr o risco de ficar la pra sempre
-      setTimeout(this.hideTooltip, 2000);
-    },
-    hideTooltip() {
-      this.show = false;
-    },
-  },
 };
 </script>
 
 <style scoped>
 .container {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
 }
 button {
@@ -71,23 +54,41 @@ button {
   color: var(--text);
 }
 .tooltip {
+  display: none;
+  opacity: 0;
+  transition: all 150ms;
+
+  max-height: var(--size);
+
   color: white;
-  font-size: 10;
-  max-width: 600px;
+  font-size: 1.3rem;
+
+  max-width: 15rem;
   word-wrap: break-word;
+
   border-radius: 10px;
+
   margin-right: 0.5rem;
   padding: 1rem;
-  background: rgb(24, 24, 24, 0.7);
+
+  background: rgb(24, 24, 24, 0.8);
+
   /* blur no fundo */
   backdrop-filter: blur(2px);
 }
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: 0.15s ease-in-out;
+
+@media only screen and (min-width: 1100px) {
+  /* keeps button from increasing height when tooltip pops up
+  .button {
+    margin: 0.2rem 0;
+  } */
+
+  .tooltip {
+    display: initial;
+  }
+
+  .button:hover + .tooltip {
+    opacity: 1;
+  }
 }
 </style>

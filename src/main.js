@@ -13,6 +13,7 @@ import Toaster from "@meforma/vue-toaster"
 // css
 import "./index.css"
 import "./generic-classes.css"
+import "./variables.css"
 
 const notificationConfig = {
   position: "bottom",

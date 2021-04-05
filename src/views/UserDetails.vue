@@ -1,7 +1,6 @@
 <template>
   <curtain-view
     :title="user?.name"
-    stretch
     :buttons="[
       {
         iconName: 'delete',
@@ -15,6 +14,7 @@
     <tab-view :tabs="['Actions', 'Details']">
       <template #actions>
         <form>
+          <!-- gets possible account actions from list and displays as buttons -->
           <div class="action-options">
             <button
               v-for="action in actions"
@@ -26,23 +26,27 @@
             </button>
           </div>
 
-          <select
-            v-show="selectedAction === 'Transfer'"
-            v-model="transferTarget"
-          >
-            <option disabled value="">Transfer to</option>
-            <option
-              v-for="targetUser in users"
-              :value="targetUser.id"
-              :key="targetUser.id"
+          <div class="action-details">
+            <!-- input for selecting target to transfer to, when action is Transfer -->
+            <select
+              v-show="selectedAction === 'Transfer'"
+              v-model="transferTarget"
             >
-              {{ targetUser.nickname }}
-            </option>
-          </select>
+              <option disabled value="">Transfer to</option>
+              <option
+                v-for="targetUser in users"
+                :value="targetUser.id"
+                :key="targetUser.id"
+              >
+                {{ targetUser.nickname }}
+              </option>
+            </select>
 
-          <input type="text" placeholder="Amount" v-model="amount" />
+            <!-- the amount on which to perform the operation -->
+            <input type="text" placeholder="Amount" v-model="amount" />
 
-          <button @click.prevent="submitAction">Submit</button>
+            <button @click.prevent="submitAction">Submit</button>
+          </div>
         </form>
       </template>
       <template #details>
@@ -80,6 +84,7 @@ export default {
       actionMapping: {
         Withdraw: this.withdraw,
         Deposit: this.deposit,
+        Transfer: this.transfer,
       },
     };
   },
@@ -97,7 +102,7 @@ export default {
       const action =
         this.actionMapping[this.selectedAction] ??
         ((toast) => toast.show("Oops, this action is not yet implemented!"));
-      action(this.$toast)
+      action(this.$toast);
     },
     selectAction(action) {
       this.selectedAction = action;
@@ -121,19 +126,10 @@ export default {
           });
       }
     },
-    withdraw() {
-      this.$toast.show(
-        `Withdrawing $${this.amount} from ${this.user.nickname}...`
-      );
-      api
-        .accountWithdraw(this.user.account.id, this.amount)
-        .then(() => {
-          this.$toast.success("Withdrawal complete!");
-          this.$store.commit("updateUserBalance", {
-            userId: this.user.id,
-            value: -this.amount,
-          });
-        })
+    accountOperation({ initialMessage, apiWrapper, successWrapper }) {
+      this.$toast.show(initialMessage);
+      apiWrapper()
+        .then(successWrapper)
         .catch((error) => {
           const message = error?.response?.data?.message;
           if (message) {
@@ -146,30 +142,63 @@ export default {
           }
         });
     },
+    withdraw() {
+      this.accountOperation({
+        initialMessage: `Withdrawing $${this.amount} from ${this.user.nickname}...`,
+        apiWrapper: () =>
+          api.accountWithdraw(this.user.account.id, this.amount),
+        successWrapper: () => {
+          this.$toast.success("Withdrawal complete!");
+          this.$store.commit("updateUserBalance", {
+            userId: this.user.id,
+            value: -this.amount,
+          });
+        },
+      });
+    },
     deposit() {
-      this.$toast.show(
-        `Depositing $${this.amount} to ${this.user.nickname}...`
-      );
-      api
-        .accountDeposit(this.user.account.id, this.amount)
-        .then(() => {
+      this.accountOperation({
+        initialMessage: `Depositing $${this.amount} to ${this.user.nickname}...`,
+        apiWrapper: () => api.accountDeposit(this.user.account.id, this.amount),
+        successWrapper: () => {
           this.$toast.success("Deposit complete!");
           this.$store.commit("updateUserBalance", {
             userId: this.user.id,
             value: this.amount,
           });
-        })
-        .catch((error) => {
-          const message = error?.response?.data?.message;
-          if (message) {
-            this.$toast.error(`${message}. Check API log for details`);
-          } else {
-            this.$toast.error(
-              `An error occured. Check the console for details`
-            );
-            console.log({ error });
-          }
-        });
+        },
+      });
+    },
+    transfer() {
+      const targetUser = this.users[this.transferTarget];
+
+      if (!targetUser) {
+        this.$toast.error(
+          "Please, select a target user for the money transfer"
+        );
+        return;
+      }
+
+      this.accountOperation({
+        initialMessage: `Transfering $${this.amount} from ${this.user.nickname} to ${targetUser.nickname}...`,
+        apiWrapper: () =>
+          api.transfer(
+            this.user.account.id,
+            targetUser.account.id,
+            this.amount
+          ),
+        successWrapper: () => {
+          this.$toast.success("Transfer complete!");
+          this.$store.commit("updateUserBalance", {
+            userId: this.user.id,
+            value: -this.amount,
+          });
+          this.$store.commit("updateUserBalance", {
+            userId: this.transferTarget,
+            value: this.amount,
+          });
+        },
+      });
     },
   },
 };
@@ -207,18 +236,19 @@ main {
 
 form {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
+  row-gap: 1.2rem;
+  column-gap: 3rem;
+
   font-size: 1.4rem;
 }
 
-form > * + * {
-  margin-top: 1.2rem;
-}
-
 .action-options {
-  width: 15rem;
-  min-width: max-content;
+  width: clamp(10rem, 25vw, 15rem);
+  min-width: 15rem;
 
   display: flex;
   flex-direction: column;
@@ -226,6 +256,10 @@ form > * + * {
   justify-content: center;
 
   flex-wrap: wrap;
+}
+
+button {
+  cursor: pointer;
 }
 
 .action-options * {
@@ -246,6 +280,13 @@ form > * + * {
   border-radius: 0 0 20px 20px;
 }
 
+.action-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
 .selected {
   background-color: var(--blue);
   color: white;
@@ -253,8 +294,8 @@ form > * + * {
 
 input,
 select,
-form > button {
-  width: 10rem;
+.action-details > button {
+  width: clamp(10rem, 25vw, 15rem);
   padding: 0.5rem;
   text-align: center;
   font-size: 1.2rem;
@@ -264,16 +305,12 @@ form > button {
   border-radius: 20px;
 }
 
-select {
-  width: 100%;
-}
-
-form > button {
+.action-details > button {
   background-color: var(--blue);
   color: white;
 }
 
-form > button:active {
+.action-details > button:active {
   filter: brightness(0.8) grayscale(20%);
 }
 
@@ -281,5 +318,11 @@ span {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+@media only screen and (min-width: 550px) {
+  form {
+    padding: 1rem 0;
+  }
 }
 </style>

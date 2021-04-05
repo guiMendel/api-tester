@@ -37,6 +37,8 @@ div {
   box-shadow: 0 1px 2px 0.5px var(--washed-gray);
 
   padding: 1rem 2rem;
+
+  cursor: pointer;
 }
 
 .user-info {

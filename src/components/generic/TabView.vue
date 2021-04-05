@@ -51,7 +51,7 @@ header {
 
 span {
   background-color: var(--washed-gray);
-  padding: 0.5rem;
+  padding: 0.5rem 2rem;
   flex: 1;
   border-radius: 20px 20px 0 0;
 
@@ -60,6 +60,8 @@ span {
   filter: brightness(0.8) grayscale(20%);
 
   transition: all 150ms;
+
+  cursor: pointer;
 }
 
 span.active {
@@ -91,7 +93,13 @@ section.active {
 }
 
 .stretch {
-  width: 100%;
+  min-width: 25vw;
 }
 
+@media only screen and (min-width: 1100px) {
+  span {
+    flex: initial;
+
+  }
+}
 </style>

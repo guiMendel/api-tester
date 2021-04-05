@@ -70,4 +70,10 @@ export default {
       "post",
       { value },
     ),
+  transfer: (from, to, value) =>
+    requestAndRegister(
+      `https://mendel-rocketpay.herokuapp.com/api/accounts/transaction`,
+      "post",
+      { from, to, value },
+    ),
 }
