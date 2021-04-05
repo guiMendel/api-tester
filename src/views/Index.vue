@@ -6,16 +6,21 @@
   </router-view>
 
   <main>
+    <h1>Rocketpay Users</h1>
+
     <span v-if="message">{{ message }}</span>
 
-    <user
-      v-for="user in users"
-      :name="user.name"
-      :nickname="user.nickname"
-      :balance="user.account.balance"
-      :key="user.id"
-      @click="selectUser(user.id)"
-    />
+    <div>
+      <user
+        class="user"
+        v-for="user in users"
+        :name="user.name"
+        :nickname="user.nickname"
+        :balance="user.account.balance"
+        :key="user.id"
+        @click="selectUser(user.id)"
+      />
+    </div>
   </main>
 </template>
 
@@ -60,15 +65,23 @@ export default {
 
 <style scoped>
 main {
-  display: flex;
-  flex-direction: column;
-
   /* padding to fit the header buttons */
   padding: 7rem 1rem 2rem;
 }
 
-main > * + * {
-  margin-top: 1rem;
+div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 3rem;
+
+  margin: 0 1rem 2rem;
 }
 
 main > span {
@@ -85,5 +98,21 @@ main > span {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+@media only screen and (min-width: 550px) {
+  main {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  
+  div {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .user {
+    width: 20rem;
+  }
 }
 </style>
