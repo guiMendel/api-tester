@@ -101,11 +101,6 @@ main > span {
 }
 
 @media only screen and (min-width: 550px) {
-  main {
-    padding-left: 5%;
-    padding-right: 5%;
-  }
-  
   div {
     flex-direction: row;
     flex-wrap: wrap;
@@ -113,6 +108,12 @@ main > span {
 
   .user {
     width: 20rem;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  main {
+    padding: 2rem 5%;
   }
 }
 </style>
