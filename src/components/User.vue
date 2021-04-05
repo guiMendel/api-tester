@@ -58,7 +58,7 @@ div {
 
   padding: 1rem 2rem;
 
-  transition: all 400ms;
+  transition: all 600ms;
 
   cursor: pointer;
 }

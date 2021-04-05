@@ -15,7 +15,7 @@
         :name="user.name"
         :nickname="user.nickname"
         :balance="user.account.balance"
-        :showDelay="doneDisplaying ? 0 : index * 80"
+        :showDelay="doneDisplaying ? 0 : index * 100"
         :key="user.id"
         @click="selectUser(user.id)"
       />
@@ -46,7 +46,7 @@ export default {
   },
   created() {
     // Pega a lista de usuarios na api
-    this.message = "Loading users...";
+    this.message = "Loading users, please wait while the server heats up...";
     api
       .fetchUsers()
       .then(({ data }) => {
