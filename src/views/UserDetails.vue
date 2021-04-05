@@ -15,6 +15,7 @@
     <tab-view :tabs="['Actions', 'Details']">
       <template #actions>
         <form>
+          <!-- gets possible account actions from list and displays as buttons -->
           <div class="action-options">
             <button
               v-for="action in actions"
@@ -26,6 +27,7 @@
             </button>
           </div>
 
+          <!-- input for selecting target to transfer to, when action is Transfer -->
           <select
             v-show="selectedAction === 'Transfer'"
             v-model="transferTarget"
@@ -40,6 +42,7 @@
             </option>
           </select>
 
+          <!-- the amount on which to perform the operation -->
           <input type="text" placeholder="Amount" v-model="amount" />
 
           <button @click.prevent="submitAction">Submit</button>
@@ -80,6 +83,7 @@ export default {
       actionMapping: {
         Withdraw: this.withdraw,
         Deposit: this.deposit,
+        Transfer: this.transfer,
       },
     };
   },
@@ -97,7 +101,7 @@ export default {
       const action =
         this.actionMapping[this.selectedAction] ??
         ((toast) => toast.show("Oops, this action is not yet implemented!"));
-      action(this.$toast)
+      action(this.$toast);
     },
     selectAction(action) {
       this.selectedAction = action;
@@ -121,6 +125,7 @@ export default {
           });
       }
     },
+    // withdraw and deposit need refactoring! Not DRY enough
     withdraw() {
       this.$toast.show(
         `Withdrawing $${this.amount} from ${this.user.nickname}...`
@@ -156,6 +161,36 @@ export default {
           this.$toast.success("Deposit complete!");
           this.$store.commit("updateUserBalance", {
             userId: this.user.id,
+            value: this.amount,
+          });
+        })
+        .catch((error) => {
+          const message = error?.response?.data?.message;
+          if (message) {
+            this.$toast.error(`${message}. Check API log for details`);
+          } else {
+            this.$toast.error(
+              `An error occured. Check the console for details`
+            );
+            console.log({ error });
+          }
+        });
+    },
+    transfer() {
+      const targetUser = this.users[this.transferTarget];
+      this.$toast.show(
+        `Transfering $${this.amount} from ${this.user.nickname} to ${targetUser.nickname}...`
+      );
+      api
+        .transfer(this.user.account.id, targetUser.account.id, this.amount)
+        .then(() => {
+          this.$toast.success("Transfer complete!");
+          this.$store.commit("updateUserBalance", {
+            userId: this.user.id,
+            value: -this.amount,
+          });
+          this.$store.commit("updateUserBalance", {
+            userId: this.transferTarget,
             value: this.amount,
           });
         })
