@@ -70,6 +70,7 @@ export default {
 <style scoped>
 .curtain {
   /* ocupa a tela inteira */
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;

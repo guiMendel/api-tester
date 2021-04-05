@@ -1,22 +1,39 @@
 <template>
-  <div class="container">
+  <div :style="appearLogic" class="container">
     <div class="user-info">
       <h1>{{ name }}</h1>
       <h2>{{ nickname }}</h2>
     </div>
-    <p>
-      $ {{ balance }}
-    </p>
+    <p>$ {{ balance }}</p>
   </div>
 </template>
 
 <script>
 export default {
   name: "User",
+  data() {
+    return {
+      // simply turns to true after the provided delay, making the user actually show
+      ready: false,
+    };
+  },
+  computed: {
+    appearLogic() {
+      return {
+        opacity: this.ready ? "1" : "0",
+        top: this.ready ? "0" : "3rem",
+      };
+    },
+  },
   props: {
     name: String,
     nickname: String,
     balance: String,
+    showDelay: Number,
+  },
+  created() {
+    // appears after the delay
+    setTimeout(() => (this.ready = true), this.showDelay);
   },
 };
 </script>
@@ -30,6 +47,9 @@ div {
 }
 
 .container {
+  position: relative;
+  z-index: 0;
+  
   width: 100%;
 
   background-color: var(--color-1);
@@ -37,6 +57,8 @@ div {
   box-shadow: 0 1px 2px 0.5px var(--washed-gray);
 
   padding: 1rem 2rem;
+
+  transition: all 400ms;
 
   cursor: pointer;
 }

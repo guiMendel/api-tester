@@ -11,10 +11,11 @@
     <div>
       <user
         class="user"
-        v-for="user in users"
+        v-for="(user, index) in userList"
         :name="user.name"
         :nickname="user.nickname"
         :balance="user.account.balance"
+        :showDelay="doneDisplaying ? 0 : index * 80"
         :key="user.id"
         @click="selectUser(user.id)"
       />
@@ -34,7 +35,15 @@ export default {
   },
   data: () => ({
     message: "",
+    doneDisplaying: false,
   }),
+  computed: {
+    ...mapState(["users"]),
+    userList() {
+      // console.log(Object.values(this.users));
+      return Object.values(this.users);
+    },
+  },
   created() {
     // Pega a lista de usuarios na api
     this.message = "Loading users...";
@@ -51,8 +60,11 @@ export default {
         this.message = "Unable to load users. Please, try again later.";
         throw error;
       });
+    // Keeps new users from receiving a delay on display
+    setTimeout(() => {
+      this.doneDisplaying = true;
+    }, 10000);
   },
-  computed: mapState(["users"]),
   methods: {
     selectUser(id) {
       this.$router.push(`/user/${id}`);
@@ -66,6 +78,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+
   min-height: 100vh;
   /* padding to fit the header buttons */
   padding: 7rem 1rem 2rem;
