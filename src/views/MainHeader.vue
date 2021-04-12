@@ -48,6 +48,8 @@ header {
 
   /* clicks through */
   pointer-events: none;
+
+  z-index: 5;
 }
 
 header > a {
