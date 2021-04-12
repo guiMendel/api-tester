@@ -55,15 +55,15 @@ export default {
           data.length != 0
             ? ""
             : "No users yet! Create one so that it shows up here 😉";
+        // Keeps newly added users from receiving a delay on display
+        setTimeout(() => {
+          this.doneDisplaying = true;
+        }, 10000);
       })
       .catch((error) => {
         this.message = "Unable to load users. Please, try again later.";
         throw error;
       });
-    // Keeps new users from receiving a delay on display
-    setTimeout(() => {
-      this.doneDisplaying = true;
-    }, 10000);
   },
   methods: {
     selectUser(id) {
